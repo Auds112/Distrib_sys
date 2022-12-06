@@ -58,8 +58,8 @@ if(action === 1) {
 
 
 } else if(action === 3) {
-  var number1 = readlineSync.question("What is the first number?")
-  var number2 = readlineSync.question("What is the second number?")
+  var number1 = readlineSync.question("What is the room number?")
+  var number2 = readlineSync.question("What is the hour number?")
   try {
     client.divide({number1: number1, number2: number2}, function(error, response) {
       try {

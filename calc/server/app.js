@@ -1,6 +1,6 @@
-var grpc = require(`@grpc/grpc-js`)
-var protoLoader = require(`@grpc/proto-loader`)
-var PROTO_PATH = __dirname + `/protos/calc.proto`
+var grpc = require("@grpc/grpc-js")
+var protoLoader = require("@grpc/proto-loader")
+var PROTO_PATH = __dirname + "/protos/calc.proto"
 var packageDefinition = protoLoader.loadSync(
   PROTO_PATH
 )
@@ -75,28 +75,6 @@ function add(call,callback){
 
   }
 
-  function divide(call,callback){
-    try{
-      var number1 = parseInt(call.request.number1)
-      var number2 = parseInt(call.request.number2)
-      if(!isNaN(number1) && !isNaN(number2)){
-        var result = number1 / number2
-        callback(null, {
-          message: undefined,
-          result: result
-        })
-      }else {
-        callback(null, {
-          message: "Please specify two numbers"
-        })
-      }
-    }catch(e){
-      callback(null, {
-        message: "An error occured during computation"
-      })
-    }
-
-}
 
 
     var server = new grpc.Server()
@@ -107,8 +85,28 @@ function add(call,callback){
       divide: divide
     })
 
-    
+    function divide(call,callback){
+      try{
+        var number1 = parseInt(call.request.number1)
+        var number2 = parseInt(call.request.number2)
+        if(!isNaN(number1) && !isNaN(number2)){
+          var result = (number1) / (number2/168*100)
+          callback(null, {
+            message: undefined,
+            result: result
+          })
+        }else {
+          callback(null, {
+            message: "Please specify two numbers"
+          })
+        }
+      }catch(e){
+        callback(null, {
+          message: "An error occured during computation"
+        })
+      }
 
+  }
 
     server.bindAsync("0.0.0.0:40000",grpc.ServerCredentials.createInsecure(), function(){
       server.start()
